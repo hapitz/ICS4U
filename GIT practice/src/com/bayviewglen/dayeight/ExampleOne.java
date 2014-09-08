@@ -4,7 +4,7 @@ public class ExampleOne {
 
 	public static void main(String[] args) {
 		final int POSITIVE_INTEGER = 5;
-		final int NEGATIVE_INTEGER = -9;
+		final int NEGATIVE_INTEGER = -8;
 		final int ZERO = 0;
 		
 		final double POSITIVE_DOUBLE = 7.0;
