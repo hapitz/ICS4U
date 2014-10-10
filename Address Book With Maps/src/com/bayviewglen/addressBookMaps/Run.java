@@ -6,25 +6,26 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Run {
+	static final int INDEX_ABOVE_0 = 1;
+
 	static Scanner scanner = new Scanner(System.in);
 	static AddressBook aUsed;
-
 	public static void main(String[] args) throws IOException, InterruptedException {
 		mainMenu();
 	}
-
 	public static void mainMenu() throws IOException, InterruptedException {
 
 		scanner = new Scanner(System.in);
-		File file = new File("books/addressbook.txt");
+		File file = new File("books/addressbook.txt");  //creates new files from the 2 text files
 		File file2 = new File("books/addressbook2.txt");
 
 
-		AddressBook a1 = new AddressBook(file);
+		AddressBook a1 = new AddressBook(file);  //create 2 address books from the 2 files. User can pick either.
 		AddressBook a2 = new AddressBook(file2);
 
 
-		aUsed = a1;
+		aUsed = a1; 
+		
 		boolean validBook = false;
 		System.out.println("Hello, welcome to your address book program.  Please select the address book you want to access:");
 		while(!validBook){
@@ -32,8 +33,8 @@ public class Run {
 			System.out.println("1. Address book one");
 			System.out.println("2. Address book two");
 
-			String tempChoice = scanner.nextLine();
-			if(tempChoice.equals("1")){
+			String tempChoice = scanner.nextLine();  
+			if(tempChoice.equals("1")){ 				//Asks which addressbook, and makes aUsed that one.
 				aUsed = a1;
 				validBook = true;
 			}
@@ -132,7 +133,7 @@ public class Run {
 										String tempDelete = scanner.nextLine();
 										int temp = Integer.parseInt(tempDelete);
 
-										if(temp > aUsed.searchList(tempChoice2).size() || temp < 1){
+										if(temp > aUsed.searchList(tempChoice2).size() || temp < INDEX_ABOVE_0){  //takes the number of the contact user wants to delete and makes sure that it is a valid choice.
 											System.out.println("Not a valid entry");
 											System.out.println();
 											Thread.sleep(1000);
@@ -141,7 +142,7 @@ public class Run {
 
 										}else{
 											validDelete = true;
-											aUsed.removeContact(aUsed.searchList(tempChoice2).get(temp-1));
+											aUsed.removeContact(aUsed.searchList(tempChoice2).get(temp-1));  //if the number is valid, it searches for the keyword, returns an arraylist of contact with that query, and then deletes it.
 											System.out.println("Contact removed.");
 											System.out.println();
 											startAgain(aUsed);
@@ -182,7 +183,7 @@ public class Run {
 					}
 				}
 				validMainMenu = true;
-			}else if(choice.equals("2")){
+			}else if(choice.equals("2")){  	//all this code below makes sure that the user enters the names and phone number with no spaces.
 				boolean validFName = false;
 				while(!validFName){
 					System.out.println("Please enter the first name you would like this contact to have: ");
