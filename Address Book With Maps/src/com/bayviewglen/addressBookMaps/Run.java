@@ -183,19 +183,45 @@ public class Run {
 				}
 				validMainMenu = true;
 			}else if(choice.equals("2")){
-				System.out.println("Please enter the first name you would like this contact to have: ");
-				String chosenFName = scanner.nextLine();
-				System.out.println("Please enter the last name you would like this contact to have: ");
-				String chosenLname = scanner.nextLine();
-				System.out.println("Please enter the phone number you would like this contact to have, with the format xxx-xxx-xxxx");
-				String chosenPhone = scanner.nextLine();
+				boolean validFName = false;
+				while(!validFName){
+					System.out.println("Please enter the first name you would like this contact to have: ");
+					String chosenFName = scanner.nextLine();
+					if(chosenFName.contains(" ")){
+						System.out.println("Please enter a name that doesn't have spaces in it");
+					}
+					else{
+						validFName = true;
+						boolean validLName = false;
+						while(!validLName){
+							System.out.println("Please enter the last name you would like this contact to have: ");
+							String chosenLname = scanner.nextLine();
+							if(chosenLname.contains(" ")){
+								System.out.println("Please enter a name that doesn't have spaces in it");
+							}
+							else{
+								validLName = true;
+								boolean validPhone = false;
+								while(!validPhone){
+									System.out.println("Please enter the phone number you would like this contact to have, with the format xxx-xxx-xxxx");
+									String chosenPhone = scanner.nextLine();
+									if(chosenPhone.contains(" ")){
+										System.out.println("Please enter a number that doesn't have spaces in it, use dashes.");
+									}
+									else{
+										validPhone  = true;
+										aUsed.addContact(chosenFName, chosenLname, chosenPhone);
 
-				aUsed.addContact(chosenFName, chosenLname, chosenPhone);
+										System.out.println("Contact added.");
 
-				System.out.println("Contact added.");
-
-				validMainMenu = true;
-				startAgain(aUsed);
+										validMainMenu = true;
+										startAgain(aUsed);
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
