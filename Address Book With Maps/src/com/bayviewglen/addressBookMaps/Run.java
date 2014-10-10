@@ -55,13 +55,20 @@ public class Run {
 			System.out.println("To add a contact, enter (2)");
 			System.out.println("To display your entire address book, enter (3)");
 			System.out.println("To select a different address book, enter (4)");
+			System.out.println("To quit, enter (5)");
+
 
 			String choice = scanner.nextLine();
 			String tempChoice2;
+
 			if (choice.equals("4")){
 				mainMenu();
 			}
-			if(choice.equals("1")){
+			else if(choice.equals("5")){
+				System.out.println("Thanks for accessing address book, goodbye");
+				System.exit(0);
+			}
+			else if(choice.equals("1")){
 				boolean searchAgain = true;
 				while(searchAgain){
 					System.out.println("Enter something to search.  Either a first name, last name, or phone number");
@@ -75,12 +82,17 @@ public class Run {
 						System.out.println("What now?");
 						System.out.println("Search again (1)");
 						System.out.println("Previous menu (2)");
+						System.out.println("Quit (3)");
 						String tempChoice = scanner.nextLine();
 						if(tempChoice.equals("1")){
 							searchAgain = true;
 						}
 						else if(tempChoice.equals("2")){
 							startAgain(aUsed);
+						}
+						else if(tempChoice.equals("3")){
+							System.out.println("Thanks for accessing address book, goodbye");
+							System.exit(0);
 						}
 
 					}
@@ -94,50 +106,50 @@ public class Run {
 						System.out.println(".");
 						Thread.sleep(400);
 						System.out.println();
-
-
 						System.out.println("Result:");
 						aUsed.searchDisplay(tempChoice2);
-
 						boolean tempChoice = false;
 						while(!tempChoice){
-
 							System.out.println("Options:");
-							System.out.println("Delete a contact: 1");
-							System.out.println("Previous menu: 2");
-
-
+							System.out.println("Delete a contact (1)");
+							System.out.println("Previous menu (2)");
+							System.out.println("Quit (3)");
 							String deleteChoice = scanner.nextLine();
 							if(deleteChoice.equals("2")){
 								startAgain(aUsed);
 								tempChoice = true;
 							}
+							else if(deleteChoice.equals("3")){
+								System.out.println("Thanks for accessing address book, goodbye");
+								System.exit(0);
+							}
 							else if(deleteChoice.equals("1")){
 								searchAgain = false;
 								boolean validDelete = false;
 								while(!validDelete){
-									System.out.println("Enter the number above the contact you wish to delete: ");
-									String tempDelete = scanner.nextLine();
-									int temp = Integer.parseInt(tempDelete);
-								
-									if(temp > aUsed.searchList(tempChoice2).size() || temp < 1){
-										System.out.println("Not a valid entry");
-										System.out.println();
-										Thread.sleep(1000);
-										tempChoice = true;
-										validDelete = false;
+									try{
+										System.out.println("Enter the number above the contact you wish to delete: ");
+										String tempDelete = scanner.nextLine();
+										int temp = Integer.parseInt(tempDelete);
 
-									}else{
-										validDelete = true;
-										aUsed.removeContact(aUsed.searchList(tempChoice2).get(temp-1));
-										System.out.println("Contact removed.");
-										System.out.println();
-										startAgain(aUsed);
+										if(temp > aUsed.searchList(tempChoice2).size() || temp < 1){
+											System.out.println("Not a valid entry");
+											System.out.println();
+											Thread.sleep(1000);
+											tempChoice = true;
+											validDelete = false;
+
+										}else{
+											validDelete = true;
+											aUsed.removeContact(aUsed.searchList(tempChoice2).get(temp-1));
+											System.out.println("Contact removed.");
+											System.out.println();
+											startAgain(aUsed);
+										}
+									}catch(Exception ex){
+										System.out.println("Thats not an option");
 									}
 								}
-								
-								
-								
 							}
 							else{
 								tempChoice = false;
@@ -151,9 +163,9 @@ public class Run {
 				aUsed.displayContacts();
 				boolean tempAns = false;
 				while(!tempAns){
-					System.out.println("What now?");
-					System.out.println("Return to previous menu? Enter 1.");
-					System.out.println("Quit? Enter 2.");
+					System.out.println("Options");
+					System.out.println("Return to previous menu? (1)");
+					System.out.println("Quit? (2)");
 
 					String decision = scanner.nextLine();
 					if(decision.equals("1")){
@@ -170,8 +182,7 @@ public class Run {
 					}
 				}
 				validMainMenu = true;
-			}
-			else if(choice.equals("2")){
+			}else if(choice.equals("2")){
 				System.out.println("Please enter the first name you would like this contact to have: ");
 				String chosenFName = scanner.nextLine();
 				System.out.println("Please enter the last name you would like this contact to have: ");
@@ -186,14 +197,8 @@ public class Run {
 				validMainMenu = true;
 				startAgain(aUsed);
 			}
-
-
-
-
 		}
 	}
-
-
 }
 
 

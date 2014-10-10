@@ -9,14 +9,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 
-public class AddressBook {
+public class AddressBook {  
 	Map<String, Contact> list = new HashMap<String, Contact>();	
 	private PrintWriter writer;
 	private Scanner scanner;
 	private String name;
 	private String filePath;
 
-	public AddressBook(File file) throws FileNotFoundException{
+	public AddressBook(File file) throws FileNotFoundException{ //constructor for a new address book that takes a file as parameter
 		list = new HashMap<String, Contact>();
 		File f = file;
 		scanner = new Scanner(f);
@@ -25,31 +25,31 @@ public class AddressBook {
 		insertContacts();
 
 	}
-	public void insertContacts(){
+	public void insertContacts(){  //reads the contacts from the text file, and breaks the words apart, then created new contacts and puts them into hash map
 		int numContacts = scanner.nextInt();
 		if(numContacts > 0){
 			scanner.nextLine();
 		}
-		String temp;
-		String fName, lName, phoneNumber;
+		
+		String firstName, lastName, phoneNumber, temp;
 		for(int i=0; i<numContacts; i++){
 			temp = scanner.nextLine();
-			fName = temp.split(" ")[0];
-			lName = temp.split(" ")[1];
+			firstName = temp.split(" ")[0];
+			lastName = temp.split(" ")[1];
 			phoneNumber = temp.split(" ")[2];
-			list.put(phoneNumber , new Contact(fName, lName, phoneNumber));
+			list.put(phoneNumber , new Contact(firstName, lastName, phoneNumber)); //used phone number as the key because unique to each person
 		}
 	}
 
-	public void addContact(String firstName,String lastName,String phoneNumber) throws FileNotFoundException{
+	public void addContact(String firstName,String lastName,String phoneNumber) throws FileNotFoundException{ //adds a contact to the hashmap of contacts, then saves and writes it to the file
 		list.put(phoneNumber, new Contact(firstName,lastName,phoneNumber));
 		saveContacts();
 	}
-	public void removeContact(Contact contact) throws FileNotFoundException{
+	public void removeContact(Contact contact) throws FileNotFoundException{ //removes a contact from the hash map, then takes it off the text file
 		list.remove(contact.getPhoneNumber());
 		saveContacts();
 	}
-	public void displayContacts(){
+	public void displayContacts(){ //goes through all the entries in the hash map, and displays their first name, last name, and phone number.
 		int counter = 0;
 		for(Contact contact : list.values()){
 			System.out.println(counter +1 + ":");
@@ -61,7 +61,7 @@ public class AddressBook {
 		}
 	}
 
-	public ArrayList<Contact> searchList(String x){
+	public ArrayList<Contact> searchList(String x){ // goes through the hash map, and each time if finds a contact matching the search query, it puts that contact into an arrayList of contacts, which it then returns.
 		ArrayList<Contact> found = new ArrayList<Contact>();
 		for(Contact contact : list.values()){
 			if(contact.getFirstName().toLowerCase().equals(x.toLowerCase())){
@@ -81,7 +81,7 @@ public class AddressBook {
 	}
 
 
-	public void searchDisplay(String x){
+	public void searchDisplay(String x){ //searches through the hash map of contacts, and if it finds a match to the search query, it prints out the first name, last name, and phone number of that contact.
 		int countResults = 0;
 		for(Contact contact : list.values()){
 			if(contact.getFirstName().toLowerCase().equals(x.toLowerCase())){
@@ -122,7 +122,7 @@ public class AddressBook {
 
 	}
 
-	public Contact search(String x){
+	public Contact search(String x){ //searches all contacts in hash map, and if it finds a match to the query, it returns that contact.
 		for(Contact contact : list.values()){
 			if(contact.getFirstName().toLowerCase().equals(x.toLowerCase())){
 				return contact;
@@ -137,7 +137,8 @@ public class AddressBook {
 		return null;
 	}
 
-	public void saveContacts() throws FileNotFoundException{
+	public void saveContacts() throws FileNotFoundException{ //saves to the text file, so that it always has most up to date contact list.
+															//goes through the values from the hash map of contacts and prints them to the file.
 		writer = new PrintWriter(filePath);
 		writer.println(list.size());
 		for(Contact contact : list.values()){
