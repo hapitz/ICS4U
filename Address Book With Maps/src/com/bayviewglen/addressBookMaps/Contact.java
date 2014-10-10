@@ -1,4 +1,4 @@
-package com.bayviewglen.addressBook;
+package com.bayviewglen.addressBookMaps;
 
 public class Contact {
 	

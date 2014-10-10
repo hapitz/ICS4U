@@ -1,21 +1,23 @@
-package com.bayviewglen.addressBook;
+package com.bayviewglen.addressBookMaps;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 
 public class AddressBook {
-	private ArrayList<Contact> list;
+	Map<String, Contact> list = new HashMap<String, Contact>();	
 	private PrintWriter writer;
 	private Scanner scanner;
 	private String name;
 	private String filePath;
 
 	public AddressBook(File file) throws FileNotFoundException{
-		list = new ArrayList<Contact>();
+		list = new HashMap<String, Contact>();
 		File f = file;
 		scanner = new Scanner(f);
 		filePath = "Books\\" + file.getName();
@@ -23,9 +25,6 @@ public class AddressBook {
 		insertContacts();
 
 	}
-
-
-
 	public void insertContacts(){
 		int numContacts = scanner.nextInt();
 		if(numContacts > 0){
@@ -38,21 +37,21 @@ public class AddressBook {
 			fName = temp.split(" ")[0];
 			lName = temp.split(" ")[1];
 			phoneNumber = temp.split(" ")[2];
-			list.add(new Contact(fName, lName, phoneNumber));
+			list.put(phoneNumber , new Contact(fName, lName, phoneNumber));
 		}
 	}
 
 	public void addContact(String firstName,String lastName,String phoneNumber) throws FileNotFoundException{
-		list.add(new Contact(firstName,lastName,phoneNumber));
+		list.put(phoneNumber, new Contact(firstName,lastName,phoneNumber));
 		saveContacts();
 	}
 	public void removeContact(Contact contact) throws FileNotFoundException{
-		list.remove(contact);
+		list.remove(contact.getPhoneNumber());
 		saveContacts();
 	}
 	public void displayContacts(){
 		int counter = 0;
-		for(Contact contact : list){
+		for(Contact contact : list.values()){
 			System.out.println(counter +1 + ":");
 			System.out.println("First name: " + contact.getFirstName());
 			System.out.println("Last name: " + contact.getLastName());
@@ -64,7 +63,7 @@ public class AddressBook {
 
 	public ArrayList<Contact> searchList(String x){
 		ArrayList<Contact> found = new ArrayList<Contact>();
-		for(Contact contact : list){
+		for(Contact contact : list.values()){
 			if(contact.getFirstName().toLowerCase().equals(x.toLowerCase())){
 				found.add(contact);
 			}
@@ -75,7 +74,7 @@ public class AddressBook {
 				found.add(contact);
 			}
 		}
-		if(found.get(0) != null){
+	if(found.get(0) != null){
 			return found;
 		}
 		return null;
@@ -84,7 +83,7 @@ public class AddressBook {
 
 	public void searchDisplay(String x){
 		int countResults = 0;
-		for(Contact contact : list){
+		for(Contact contact : list.values()){
 			if(contact.getFirstName().toLowerCase().equals(x.toLowerCase())){
 				System.out.println(countResults + 1 + ":");
 				System.out.print("First Name: ");
@@ -120,11 +119,11 @@ public class AddressBook {
 				countResults ++;
 			}
 		}
-		
+
 	}
 
-public Contact search(String x){
-		for(Contact contact : list){
+	public Contact search(String x){
+		for(Contact contact : list.values()){
 			if(contact.getFirstName().toLowerCase().equals(x.toLowerCase())){
 				return contact;
 			}
@@ -141,7 +140,7 @@ public Contact search(String x){
 	public void saveContacts() throws FileNotFoundException{
 		writer = new PrintWriter(filePath);
 		writer.println(list.size());
-		for(Contact contact : list){
+		for(Contact contact : list.values()){
 			writer.println(contact.getFirstName() + " " + contact.getLastName() + " " + contact.getPhoneNumber());
 		}
 		writer.close();
